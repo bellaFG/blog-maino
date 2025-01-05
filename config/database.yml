@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: <%= Rails.application.credentials.dig(:database, :database_name) %>
+  username: <%= Rails.application.credentials.dig(:database, :username) %>
+  password: <%= Rails.application.credentials.dig(:database, :password) %>
+
+test:
+  <<: *default
+  database: <%= Rails.application.credentials.dig(:database, :database_name) %>_test
+  username: <%= Rails.application.credentials.dig(:database, :username) %>
+  password: <%= Rails.application.credentials.dig(:database, :password) %>
+
+production:
+  <<: *default
+  database: <%= Rails.application.credentials.dig(:database, :database_name) %>_production
+  username: <%= Rails.application.credentials.dig(:database, :username) %>
+  password: <%= ENV["BLOG_MAINO_DATABASE_PASSWORD"] %>

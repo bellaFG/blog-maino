@@ -1,0 +1,12 @@
+<div class="card bg-light">
+  <div class="card-body">
+    <h4><%= link_to article.title, article %></h4>
+    <div class="text-muted mb-2">
+      <em>Por <%= article.author %> 
+        (Criado em: <%= article.created_at.strftime("%d/%m/%Y %H:%M") %> 
+        <%= article.created_at != article.updated_at ? " | Atualizado em: #{article.updated_at.strftime("%d/%m/%Y %H:%M")}" : "" %>)
+      </em>
+    </div>
+    <p><%= article.body.truncate(100) %></p>
+  </div>
+</div>
