@@ -1,13 +1,8 @@
+version: 1
 services:
   - type: web
-    name: mysite
-    env: ruby
-    buildCommand: ./bin/render-build.sh
-    startCommand: bundle exec rails server
-    envVars:
-      - key: DATABASE_URL
-        value: postgresql://postgres:2579@localhost/blog_db
-      - key: RAILS_MASTER_KEY
-        value: 50732b41d20c36732ada5106dcbccf9f
-      - key: WEB_CONCURRENCY
-        value: "2"
+    name: blog-maino
+    buildCommand: ./bin/render-build.sh && bundle exec rails db:migrate
+    startCommand: bundle exec puma -C config/puma.rb
+    env:
+      DATABASE_URL: "postgresql://postgres:2579@localhost/blog_db"
