@@ -6,13 +6,8 @@ services:
     startCommand: bundle exec rails server
     envVars:
       - key: DATABASE_URL
-        value: <URL_do_seu_banco_de_dados>
+        value: postgresql://postgres:2579@localhost/blog_db
       - key: RAILS_MASTER_KEY
-        value: <valor_do_seu_master_key>
+        value: 50732b41d20c36732ada5106dcbccf9f
       - key: WEB_CONCURRENCY
         value: "2"
-
-databases:
-  - name: mysite-db
-    databaseType: postgresql
-    plan: free
