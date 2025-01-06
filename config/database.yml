@@ -2,30 +2,19 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: <%= Rails.application.credentials.dig(:database, :password) %>
+  host: localhost
+  port: 5432
+  database: blog_db
 
 development:
   <<: *default
-  database: blog_db
-  # Remova ou comente as configurações abaixo
-  # username: postgres
-  # password: <%= Rails.application.credentials.dig(:database, :password) %>
-  # host: localhost
-  # port: 5432
 
 test:
   <<: *default
   database: blog_db_test
-  # Remova ou comente as configurações abaixo
-  # username: postgres
-  # password: <%= Rails.application.credentials.dig(:database, :password) %>
-  # host: localhost
-  # port: 5432
 
 production:
   <<: *default
-  database: blog_db_production
-  # Remova ou comente as configurações abaixo
-  # username: postgres
-  # password: <%= Rails.application.credentials.dig(:database, :password) %>
-  # host: localhost
-  # port: 5432
+  url: <%= ENV['DATABASE_URL'] %>
