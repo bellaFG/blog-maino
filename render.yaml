@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: mysite
+    env: ruby
+    buildCommand: ./bin/render-build.sh
+    startCommand: bundle exec rails server
+    envVars:
+      - key: DATABASE_URL
+        value: <URL_do_seu_banco_de_dados>
+      - key: RAILS_MASTER_KEY
+        value: <valor_do_seu_master_key>
+      - key: WEB_CONCURRENCY
+        value: "2"
+
+databases:
+  - name: mysite-db
+    databaseType: postgresql
+    plan: free
