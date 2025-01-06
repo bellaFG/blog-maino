@@ -20,3 +20,6 @@ production:
   database: <%= Rails.application.credentials.dig(:database, :database_name) %>_production
   username: <%= Rails.application.credentials.dig(:database, :username) %>
   password: <%= ENV["BLOG_MAINO_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  host: localhost
+  port: 5432

@@ -7,5 +7,5 @@ class Article < ApplicationRecord
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
 
-  validates :title, :body, presence: true
+  validates :title, :body, :author, presence: true
 end
