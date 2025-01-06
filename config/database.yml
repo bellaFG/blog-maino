@@ -6,19 +6,26 @@ default: &default
 development:
   <<: *default
   database: blog_db
-  username: postgres
-  password: <%= Rails.application.credentials.dig(:database, :password) %>
+  # Remova ou comente as configurações abaixo
+  # username: postgres
+  # password: <%= Rails.application.credentials.dig(:database, :password) %>
+  # host: localhost
+  # port: 5432
 
 test:
   <<: *default
   database: blog_db_test
-  username: postgres
-  password: <%= Rails.application.credentials.dig(:database, :password) %>
+  # Remova ou comente as configurações abaixo
+  # username: postgres
+  # password: <%= Rails.application.credentials.dig(:database, :password) %>
+  # host: localhost
+  # port: 5432
 
 production:
   <<: *default
   database: blog_db_production
-  username: postgres
-  password: <%= Rails.application.credentials.dig(:database, :password) %>
-  host: localhost
-  port: 5432
+  # Remova ou comente as configurações abaixo
+  # username: postgres
+  # password: <%= Rails.application.credentials.dig(:database, :password) %>
+  # host: localhost
+  # port: 5432
