@@ -5,34 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog Mainô</title>
 
-  <!-- Aqui você inclui o bootstrap e outros scripts via importmap -->
   <%= javascript_importmap_tags %>
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #1a1a1a;
+      color: #fff;
+    }
+    .navbar {
+      background-color: #000;
+    }
+    .navbar-brand h3 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    .btn-transparent {
+      background-color: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+    }
+    .btn-transparent:hover {
+      background-color: rgb(40, 40, 40);
+      color: #000;
+    }
+    .article-container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card {
+      background-color: #333;
+      border: 1px solid #444;
+    }
+    .card-body {
+      color: #fff;
+    }
+    .navbar-nav .nav-item {
+      margin-right: 15px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><%= link_to "Login", new_session_path %></li>
+
+<header class="navbar navbar-expand-lg navbar-light">
+  <nav class="container">
+    <div class="d-flex justify-content-between w-100">
+      <%= link_to root_path, class: "navbar-brand" do %>
+        <h3>Blog Mainô</h3>
+      <% end %>
+
+      <ul class="navbar-nav ms-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <span class="nav-link text-white">Olá, <%= current_user.name %>!</span>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-transparent px-3" %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "Entrar", new_user_session_path, class: "btn btn-transparent px-3" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Cadastrar", new_user_registration_path, class: "btn btn-transparent px-3" %>
+          </li>
+        <% end %>
       </ul>
-    </nav>
-  </header>
+    </div>
+  </nav>
+</header>
+
 
 <main>
-  <!-- O código a seguir aplica a barra com fundo vermelho e texto branco -->
-  <div class="bg-danger text-white text-center mb-4 p-4">
-    <%= link_to root_path, class: "text-white text-decoration-none" do %>
-      <h1 class="display-4"> Blog Mainô </h1>
-    <% end %>
-    <p class="lead"> Bem-vindo! Um espaço para compartilhar conhecimentos sobre programação e tecnologia.</p>
+  <div class="article-container">
+    <%= yield %> <!-- Conteúdo dos artigos -->
   </div>
-
-  <%= yield %> <!-- Aqui o conteúdo da página será exibido -->
 </main>
 
-
-<footer class="bg-danger text-white text-center mt-5 p-3">
+<footer class="bg-black text-white text-center py-2 mt-5">
   <p>&copy; Blog Mainô <%= Date.current.year %></p>
 </footer>
 

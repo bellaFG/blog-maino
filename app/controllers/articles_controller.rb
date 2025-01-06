@@ -1,57 +1,69 @@
 class ArticlesController < ApplicationController
-  layout "application"
+  before_action :authenticate_user!, except: [ :index, :show ]
 
-  before_action :authenticate_user!, only: [ :new, :create, :edit, :update, :destroy ]
-  before_action :set_article, only: [ :edit, :update, :destroy ]
-  before_action :authorize_user!, only: [ :edit, :update, :destroy ]
 
   def index
     @articles = Article.all
-      Rails.logger.debug "Carregando artigos: #{@articles.inspect}"
   end
+
+
+  def show
+    @article = Article.friendly.find(params[:id])
+    @comments = @article.comments
+    @comment = @article.comments.build
+  end
+
 
   def new
     @article = Article.new
   end
 
-  def create
-    @article = Article.new(article_params)
-    @article.user = current_user
 
+  def create
+    @article = current_user.articles.build(article_params)
     if @article.save
-      redirect_to articles_path, notice: "Artigo criado com sucesso!"
+      redirect_to @article, notice: "Artigo criado com sucesso."
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
+
   def edit
+    @article = current_user.articles.find_by(id: params[:id])
+
+
+    if @article.nil?
+      flash[:alert] = "Você não tem permissão para editar este artigo."
+      redirect_to articles_path
+    end
   end
 
   def update
+    @article = current_user.articles.find_by(id: params[:id])
+
+
     if @article.update(article_params)
-      redirect_to articles_path, notice: "Artigo atualizado com sucesso!"
+      redirect_to @article, notice: "Artigo atualizado com sucesso."
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
+
   def destroy
-    @article.destroy
-    redirect_to articles_path, notice: "Artigo excluído com sucesso!"
+    @article = current_user.articles.find_by(id: params[:id])
+
+    if @article.nil?
+      flash[:alert] = "Você não tem permissão para excluir este artigo."
+      redirect_to articles_path
+    else
+      @article.destroy
+      redirect_to articles_path, notice: "Artigo excluído com sucesso."
+    end
   end
 
   private
-
-  def set_article
-    @article = Article.find(params[:id])
-  end
-
-  def authorize_user!
-    unless @article.user == current_user
-      redirect_to articles_path, alert: "Você não tem permissão para editar ou excluir este artigo."
-    end
-  end
 
   def article_params
     params.require(:article).permit(:title, :body)
