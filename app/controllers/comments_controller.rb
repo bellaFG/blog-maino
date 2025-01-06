@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   def create
-    @article = Article.find_by!(slug: params[:article_id])
+    @article = Article.find_by!(slug: params[:article_slug])
     @comment = @article.comments.build(comment_params)
 
     if current_user
@@ -8,9 +8,9 @@ class CommentsController < ApplicationController
     end
 
     if @comment.save
-      redirect_to @article, notice: "O seu comentário foi enviado."
+      redirect_to @comment.article, notice: "O seu comentário foi enviado."
     else
-      redirect_to @article, alert: "Não foi possível enviar o comentário."
+      redirect_to @comment.article, alert: "Não foi possível enviar o comentário."
     end
   end
 

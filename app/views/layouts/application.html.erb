@@ -6,6 +6,7 @@
   <title>Blog Mainô</title>
 
   <%= javascript_importmap_tags %>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -46,6 +47,13 @@
     .navbar-nav .nav-item {
       margin-right: 15px;
     }
+
+    .alert .btn-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+    }
   </style>
 </head>
 <body>
@@ -78,16 +86,38 @@
   </nav>
 </header>
 
-
 <main>
-  <div class="article-container">
-    <%= yield %> <!-- Conteúdo dos artigos -->
+  <div class="container">
+    <% flash.each do |type, message| %>
+      <div class="alert alert-<%= type == 'alert' ? 'danger' : 'success' %> alert-dismissible fade show" role="alert">
+        <%= message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% end %>
+    
+    <div class="row">
+      <div class="col-4 offset-8">
+        <div class="search">
+          <%= form_with url: search_articles_path, method: :get, local: true, class: "d-flex align-items-center" do |form| %>
+          <div class="form-group mx-3 mb-3">
+            <%= form.search_field :q, class: "form-control", required: true, placeholder: "Busca" %>
+          </div>
+
+          <%= form.submit "Busca", class: "btn btn-primary mb-3", data: {disable_with: "Buscando..."} %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <%= yield %>
   </div>
 </main>
 
 <footer class="bg-black text-white text-center py-2 mt-5">
   <p>&copy; Blog Mainô <%= Date.current.year %></p>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>

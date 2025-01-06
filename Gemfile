@@ -16,10 +16,12 @@ gem "turbo-rails"
 gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+
 gem "rails-i18n"
 gem "bcrypt", "~> 3.1.7"
 gem "friendly_id", "~> 5.5.0"
 gem "devise"
+gem "pg_search"
 
 
 

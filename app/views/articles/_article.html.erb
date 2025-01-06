@@ -1,12 +1,13 @@
 <div class="card bg-light mb-3">
   <div class="card-body">
-    <h4><%= link_to article.title, article %></h4>
+
+    <h4><%= link_to article.title, article, class: 'article-title' %></h4>
 
     <div class="text-muted mb-2">
-      <em>Por <%= article.author %> (<%= l article.created_at, format: :short %>)</em>
+      <em>Por <%= article.user.name %> (<%= l article.created_at, format: :short %>)</em>
     </div>
 
-    <p><%= article.body.truncate(200) %></p>
+    <p class="article-body"><%= article.body.truncate(200) %></p>
 
     <p class="text-muted"><%= pluralize(article.comments.count, 'Comentário') %></p>
 
@@ -14,8 +15,51 @@
 
     <% if user_signed_in? && article.user == current_user %>
       <%= link_to 'Editar', edit_article_path(article), class: 'btn btn-secondary' %>
-      <%= link_to 'Apagar', article, method: :delete, class: 'btn btn-danger',
-        data: { confirm: 'Você tem certeza?' } %>
+
+      <%= form_with(model: article, method: :delete, local: true) do |form| %>
+        <%= form.submit 'Excluir', class: 'btn btn-danger', data: { confirm: 'Você tem certeza que deseja excluir este artigo?' } %>
+      <% end %>
     <% end %>
   </div>
 </div>
+
+<style>
+  .article-title {
+    color: black;
+    text-decoration: none;
+  }
+
+  .card {
+    border-radius: 8px;
+    background-color: rgb(157, 157, 157);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .article-body {
+    color: black;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+    margin-top: 10px;
+  }
+
+  .btn-create-article {
+    background-color: transparent;
+    color: white; 
+    border: 2px solid white;
+    text-decoration: none; 
+    font-size: 16px; 
+    padding: 12px;  
+    transition: background-color 0.3s ease, color 0.3s ease; 
+    border-radius: 8px; 
+  }
+
+  .btn-create-article:hover {
+    background-color:rgb(54, 54, 54); 
+    color: black;
+  }
+</style>

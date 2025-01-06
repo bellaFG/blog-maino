@@ -1,12 +1,31 @@
-<% if user_signed_in? %>
-  <div class="text-center mb-4">
-    <%= link_to "Criar Artigo", new_article_path, class: "btn btn-success btn-lg" %>
-  </div>
-<% end %>
-
 <h2>Artigos</h2>
 <div class="articles-list">
   <% @articles.each do |article| %>
     <%= render partial: "article", locals: { article: article } %>
   <% end %>
 </div>
+
+<% if user_signed_in? %> 
+  <div class="text-center mb-4">
+    <%= link_to "Criar Artigo", new_article_path, class: "btn-create-article btn-lg" %>
+  </div>
+<% end %>
+
+<style>
+.btn-create-article {
+  background-color: transparent;
+  color: white; 
+  border: 2px solid white;
+  text-decoration: none; 
+
+  font-size: 16px; 
+  padding: 12px;  
+  transition: background-color 0.3s ease, color 0.3s ease; 
+  border-radius: 8px; 
+}
+
+.btn-create-article:hover {
+  background-color:rgb(54, 54, 54); 
+  color: black;
+}
+</style>

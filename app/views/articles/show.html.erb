@@ -1,24 +1,20 @@
 <div class="shadow p-4 mb-5 bg-white rounded">
-
   <div class="text-center mb-4">
-    <h1 class="font-weight-bold text-dark mb-3"><%= @article.title %></h1> 
+    <h1 class="font-weight-bold text-dark mb-3"><%= @article.title %></h1>
     <p class="text-muted mb-4">
       <strong>Por <%= @article.author %></strong><br>
       <%= l @article.created_at, format: :long %>
     </p>
   </div>
 
-
   <div class="px-5">
-    <p class="text-dark" style="font-size: 1rem; line-height: 1.6;"> 
-      <%= @article.body.gsub("\n", "<br>").html_safe %> 
+    <p class="text-dark" style="font-size: 1rem; line-height: 1.6;">
+      <%= simple_format(@article.body) %> 
     </p>
   </div>
 </div>
 
-
 <div class="container mb-5">
-
   <div class="mb-3">
     <h4>
       <%= pluralize(@article.comments.count, 'Comentário') %>
@@ -28,31 +24,29 @@
     <% end %>
   </div>
 
-
   <div class="border-top pt-4">
     <div class="comments-list">
       <% @article.comments.each do |comment| %>
         <div class="comment-item mb-4">
-          <p><strong><%= comment.user.present? ? comment.user.name : "Anônimo" %></strong>:</p> 
+          <p><strong><%= comment.user.present? ? comment.user.name : "Anônimo" %></strong>:</p>
           <p><%= comment.body %></p>
         </div>
       <% end %>
     </div>
   </div>
 
-
-  <%= form_with model: [ @article, @comment ], local: true do |form| %>
-  <%== form.hidden_field :article_id, value: @article.id %>
+  <%= form_with model: [@article, @comment], local: true do |form| %>
+    <%= form.hidden_field :article_id, value: @article.id %>
     <div class="form-group">
       <%= form.label :body, "Comentário" %>
-      <%= form.text_area :body, class: 'form-control', rows: 5 %>
+      <%= form.text_area :body, class: 'form-control', rows: 5, required: true %>
     </div>
 
     <%= form.submit 'Enviar', class: 'btn btn-primary', data: { disable_with: 'Enviando...' } %>
   <% end %>
+
+  <div class="text-center">
+    <%= link_to "Voltar", articles_path, class: "btn btn-secondary btn-lg" %>
+  </div>
 </div>
 
-
-<div class="text-center">
-  <%= link_to "Voltar", articles_path, class: "btn btn-secondary btn-lg" %>
-</div>
