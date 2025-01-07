@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
@@ -9,80 +9,34 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #1a1a1a;
-      color: #fff;
-    }
-    .navbar {
-      background-color: #000;
-    }
-    .navbar-brand h3 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #fff;
-    }
-    .btn-transparent {
-      background-color: transparent;
-      border: 2px solid #fff;
-      color: #fff;
-    }
-    .btn-transparent:hover {
-      background-color: rgb(40, 40, 40);
-      color: #000;
-    }
-    .article-container {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    .card {
-      background-color: #333;
-      border: 1px solid #444;
-    }
-    .card-body {
-      color: #fff;
-    }
-    .navbar-nav .nav-item {
-      margin-right: 15px;
-    }
-
-    .alert .btn-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 10;
-    }
-  </style>
 </head>
-<body>
+<body class="bg-dark text-white font-poppins">
 
-<header class="navbar navbar-expand-lg navbar-light">
+<header class="navbar navbar-expand-lg navbar-dark bg-black">
   <nav class="container">
     <div class="d-flex justify-content-between w-100">
       <%= link_to root_path, class: "navbar-brand" do %>
-        <h3>Blog Mainô</h3>
+        <h3 class="fw-bold">Blog Mainô</h3>
       <% end %>
 
       <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <span class="nav-link text-white">Olá, <%= current_user.name %>!</span>
+            <span class="nav-link">Olá, <%= current_user.name %>!</span>
           </li>
           
           <li class="nav-item">
             <%= form_for(:user, url: destroy_user_session_path, method: :delete) do |f| %>
-              <%= f.submit "Sair", class: "btn btn-transparent px-3" %>
+              <%= f.submit "Sair", class: "btn btn-outline-light px-3" %>
             <% end %>
           </li>
 
         <% else %>
           <li class="nav-item">
-            <%= link_to "Entrar", new_user_session_path, class: "btn btn-transparent px-3" %>
+            <%= link_to "Entrar", new_user_session_path, class: "btn btn-outline-light px-3" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Cadastrar", new_user_registration_path, class: "btn btn-transparent px-3" %>
+            <%= link_to "Cadastrar", new_user_registration_path, class: "btn btn-outline-light px-3" %>
           </li>
         <% end %>
       </ul>
@@ -91,27 +45,27 @@
 </header>
 
 <main>
-  <div class="container">
+  <div class="container my-4">
     <% flash.each do |type, message| %>
       <div class="alert alert-<%= type == 'alert' ? 'danger' : 'success' %> alert-dismissible fade show" role="alert">
         <%= message %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% end %>
-    
-    <div class="row">
-      <div class="col-4 offset-8">
+
+    <div class="row mb-3">
+      <div class="col-12 col-md-6 offset-md-3">
         <div class="search">
           <%= form_with url: search_articles_path, method: :get, local: true, class: "d-flex align-items-center" do |form| %>
-          <div class="form-group mx-3 mb-3">
-            <%= form.search_field :q, class: "form-control", required: true, placeholder: "Busca" %>
-          </div>
-
-          <%= form.submit "Busca", class: "btn btn-primary mb-3", data: {disable_with: "Buscando..."} %>
+            <div class="input-group">
+              <%= form.search_field :q, class: "form-control", required: true, placeholder: "Buscar por título..." %>
+              <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button>
+            </div>
           <% end %>
         </div>
       </div>
     </div>
+
     <%= yield %>
   </div>
 </main>

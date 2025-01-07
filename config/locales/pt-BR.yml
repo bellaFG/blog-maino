@@ -1,1 +1,5 @@
 pt-BR:
+  errors:
+    messages:
+      not_saved: "Não foi possível salvar. Por favor, verifique os erros abaixo."
+      blank: "não pode ficar em branco"
