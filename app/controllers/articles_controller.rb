@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_user!, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [ :index, :show, :search ]
   before_action :set_article, only: [ :show, :edit, :update, :destroy ]
 
   def index
@@ -7,7 +7,11 @@ class ArticlesController < ApplicationController
   end
 
   def search
-    @articles = Article.search(params[:q])
+    if params[:q].present?
+      @articles = Article.where("title LIKE ?", "%#{params[:q]}%")
+    else
+      @articles = Article.none  # Isso garante que @articles será uma coleção vazia, não nil
+    end
   end
 
   def show

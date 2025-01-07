@@ -35,3 +35,18 @@
     </div>
   </div>
 
+  <%= form_with model: [@article, @comment], local: true do |form| %>
+    <%= form.hidden_field :article_id, value: @article.id %>
+    <div class="form-group">
+      <%= form.label :body, "Comentário" %>
+      <%= form.text_area :body, class: 'form-control', rows: 5, required: true %>
+    </div>
+
+    <%= form.submit 'Enviar', class: 'btn btn-primary', data: { disable_with: 'Enviando...' } %>
+  <% end %>
+
+  <div class="text-center">
+    <%= link_to "Voltar", articles_path, class: "btn btn-secondary btn-lg" %>
+  </div>
+</div>
+

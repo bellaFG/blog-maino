@@ -1,5 +1,5 @@
 <h2 class="text-white">
-  <% if @articles.any? %>
+  <% if @articles.present? %> 
     <%= pluralize(@articles.count, 'artigo') %> encontrados.
   <% else %>
     Nenhum artigo encontrado.
@@ -7,5 +7,7 @@
 </h2>
 
 <% @articles.each do |article| %>
-  <%= render article %>
+  <%= render 'article', article: article %>
 <% end %>
+
+
